@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Joyeux Anniversaire Hamdi 💖</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: #ffe4e1;
+        }
+
+        /* Conteneur de swipe vertical */
+        .swipe-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        section {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        /* Titre Rouge Vif */
+        .main-title {
+            color: #FF0000;
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .letter-box {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            line-height: 1.6;
+            color: #d63384;
+            max-width: 90%;
+            z-index: 2;
+        }
+
+        /* Gâteau Géant */
+        .cake {
+            font-size: 130px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.2s;
+        }
+        .cake:active { transform: scale(1.2); }
+
+        /* Photos ajustées */
+        img {
+            max-width: 95%;
+            max-height: 75vh;
+            border-radius: 15px;
+            border: 8px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            object-fit: cover;
+        }
+
+        .hint {
+            position: absolute;
+            bottom: 30px;
+            font-size: 14px;
+            color: #d63384;
+            font-weight: bold;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+    </style>
+</head>
+<body>
+
+<div class="swipe-container" id="main-container">
+    
+    <section>
+        <h1 class="main-title">💕TOI+MOI💕 mon coeur 💖</h1>
+        <div class="letter-box">
+            <p>Mon cœur, pour tes 27 ans, je voulais te dire à quel point tu es spécial pour moi. Chaque jour à tes côtés est un cadeau, et je suis tellement fière de l'homme que tu es.</p>
+            <p style="font-weight: bold; margin-top: 15px; font-size: 1.2em;">Hamdi mon amour, à tes 27 ans et à tous ceux qu'on fêtera ensemble. Je t'aime infiniment.</p>
+        </div>
+        <div class="hint">Swipe vers le haut ↑</div>
+    </section>
+
+    <section id="cake-section">
+        <div class="cake" onclick="manualConfetti()">🎂</div>
+        <h1 style="color: #d63384; margin-top: 20px; font-size: 35px;">JOYEUX ANNIVERSAIRE !</h1>
+        <p style="color: #d63384;">(Appuie sur le gâteau ! ✨)</p>
+        <div class="hint">Nos souvenirs juste au dessus ↑</div>
+    </section>
+
+    <section><img src="https://i.postimg.cc/4nsMwKcH/3a994eb7-c943-43d4-a51d-c5e00d3911f9.jpg" loading="eager"></section>
+    <section><img src="https://i.postimg.cc/Bjr7Ftsb/IMG-2653.jpg" loading="eager"></section>
+    <section><img src="https://i.postimg.cc/JGyQQmpc/IMG-2715.png" loading="eager"></section>
+    <section><img src="https://i.postimg.cc/MvGL2hdq/IMG-4726.jpg" loading="eager"></section>
+    <section>
+        <img src="https://i.postimg.cc/8fmZQbrr/IMG-5430.jpg" loading="eager">
+        <h2 style="color: #d63384; margin-top: 20px; font-size: 28px;">Je t'aime ❤️</h2>
+    </section>
+
+</div>
+
+<script>
+    const container = document.getElementById('main-container');
+    const cakeSection = document.getElementById('cake-section');
+    let hasFired = false;
+
+    // Confettis automatiques au swipe
+    container.addEventListener('scroll', () => {
+        const rect = cakeSection.getBoundingClientRect();
+        if (rect.top >= 0 && rect.top <= window.innerHeight / 2 && !hasFired) {
+            launchConfetti();
+            hasFired = true;
+        }
+    });
+
+    function manualConfetti() {
+        launchConfetti();
+    }
+
+    function launchConfetti() {
+        const duration = 3000;
+        const animationEnd = Date.now() + duration;
+        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+        function randomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        const interval = setInterval(function() {
+            const timeLeft = animationEnd - Date.now();
+
+            if (timeLeft <= 0) {
+                return clearInterval(interval);
+            }
+
+            const particleCount = 50 * (timeLeft / duration);
+            confetti(Object.assign({}, defaults, { 
+                particleCount, 
+                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } 
+            }));
+            confetti(Object.assign({}, defaults, { 
+                particleCount, 
+                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } 
+            }));
+        }, 250);
+    }
+</script>
+
+</body>
+</html>
